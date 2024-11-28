@@ -1,4 +1,4 @@
-package com.ecomweb.online.da.DA.products;
+package com.ecomweb.online.da.DA.model;
 
 public class Product {
     private int id;
@@ -17,27 +17,10 @@ public class Product {
         this.color = color;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public String getColor() {
-        return color;
-    }
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public String getType() { return type; }
+    public double getPrice() { return price; }
+    public String getSize() { return size; }
+    public String getColor() { return color; }
 }
