@@ -9,7 +9,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private UserService userService;
+
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User addUser(@RequestParam String name, @RequestParam String email, @RequestParam String role) {
-        return userService.addUser(name, email, role);
+    public User addUser(@RequestBody User user) {
+        return userService.addUser(user);
     }
 }

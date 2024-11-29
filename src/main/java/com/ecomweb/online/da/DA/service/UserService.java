@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private List<User> users = new ArrayList<>(List.of(
+    private final List<User> users = new ArrayList<>(List.of(
         new User(1, "Udit", "udit11@gmail.com", "Admin"),
         new User(2, "Ron", "ron25@gmail.com", "User"),
         new User(3, "Jhonny", "jhonny12@gmail.com", "User")
@@ -18,9 +18,9 @@ public class UserService {
         return users;
     }
 
-    public User addUser(String name, String email, String role) {
-        User newUser = new User(nextId++, name, email, role);
-        users.add(newUser);
-        return newUser;
+    public User addUser(User user) {
+        user.setId(nextId++);
+        users.add(user);
+        return user;
     }
 }

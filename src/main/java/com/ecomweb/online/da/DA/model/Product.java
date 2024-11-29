@@ -1,6 +1,7 @@
 package com.ecomweb.online.da.DA.model;
 
 public class Product {
+
     private int id;
     private String name;
     private String type;
@@ -17,10 +18,19 @@ public class Product {
         this.color = color;
     }
 
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public String getType() { return type; }
-    public double getPrice() { return price; }
-    public String getSize() { return size; }
-    public String getColor() { return color; }
+    public Product() {}
+
+    public int getId() { return id;}
+    public String getName() { return name;}
+    public String getType() { return type;}
+    public double getPrice() { return price;}
+    public String getSize() { return size;}
+    public String getColor() { return color;}
+
+    public void setId(int id) { this.id = id;}
+    public void setName(String name) { this.name = name;}
+    public void setType(String type) { this.type = type;}
+    public void setPrice(double price) { this.price = price;}
+    public void setSize(String size) { this.size = size;}
+    public void setColor(String color) { this.color = color;}
 }
