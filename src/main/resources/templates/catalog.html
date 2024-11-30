@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        function toggleEditMode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('edit') === 'true') {
+                urlParams.delete('edit');
+            } else {
+                urlParams.set('edit', 'true');
+            }
+            window.location.search = urlParams.toString();
+        }
+    </script>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Product Catalog</h1>
+
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Size</th>
+                    <th>Color</th>
+                    <th th:if="${edit}">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="product : ${products}">
+                    <td th:text="${product.id}"></td>
+                    <td>
+                        <a th:href="@{/product/{id}(id=${product.id})}" class="btn btn-link" th:text="${product.name}"></a>
+                    </td>
+                    <td th:text="${product.type}"></td>
+                    <td th:text="${product.price}"></td>
+                    <td th:text="${product.size}"></td>
+                    <td th:text="${product.color}"></td>
+                    <td th:if="${edit}">
+                        <a th:href="@{/product-delete/{id}(id=${product.id})}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <div class="text-center mt-4">
+
+            <button class="btn btn-warning btn-lg mx-2" onclick="toggleEditMode()">
+                Toggle Edit Mode
+            </button>
+            <a href="/add-product" class="btn btn-success btn-lg mx-2">Add New Product</a>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-info btn-lg mx-2">Go to Dashboard</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Update Existing Product</h1>
+        <form id="updateProductForm">
+            <div class="form-group">
+                <label for="updId">Product ID</label>
+                <input type="number" id="updId" class="form-control" placeholder="Enter product ID" required>
+            </div>
+            <div class="form-group">
+                <label for="updName">Name</label>
+                <input type="text" id="updName" class="form-control" placeholder="Enter new product name" required>
+            </div>
+            <div class="form-group">
+                <label for="updType">Type</label>
+                <input type="text" id="updType" class="form-control" placeholder="Enter new product type" required>
+            </div>
+            <div class="form-group">
+                <label for="updPrice">Price</label>
+                <input type="number" id="updPrice" class="form-control" placeholder="Enter new product price" required>
+            </div>
+            <div class="form-group">
+                <label for="updSize">Size</label>
+                <input type="text" id="updSize" class="form-control" placeholder="Enter new product size" required>
+            </div>
+            <div class="form-group">
+                <label for="updColor">Color</label>
+                <input type="text" id="updColor" class="form-control" placeholder="Enter new product color" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="updateProduct()">Update Product</button>
+        </form>
+        <div class="mt-4">
+            <a href="http://localhost:8080/" class="btn btn-secondary mr-2">To the Dashboard</a>
+            <a href="http://localhost:8080/catalog" class="btn btn-secondary">To the Product Catalog</a>
+        </div>
+    </div>
+
+    <script>
+        function updateProduct() {
+            const id = document.getElementById('updId').value;
+            const name = document.getElementById('updName').value;
+            const type = document.getElementById('updType').value;
+            const price = document.getElementById('updPrice').value;
+            const size = document.getElementById('updSize').value;
+            const color = document.getElementById('updColor').value;
+
+            fetch('/products', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: parseInt(id), name, type, price: parseFloat(price), size, color })
+            })
+            .then(res => res.json())
+            .then(data => alert('Product Updated: ' + JSON.stringify(data)))
+            .catch(err => console.error(err));
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,32 +1,34 @@
 package com.ecomweb.online.da.DA.service;
 
-import org.springframework.stereotype.Service;
-
-import com.ecomweb.online.da.DA.model.Product;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
+import com.ecomweb.online.da.DA.model.Product;
+
 @Service
 public class ProductService {
 
-    private List<Product> products = new ArrayList<>(List.of(
+    private final List<Product> products = new ArrayList<>(List.of(
             new Product(1, "Adidas", "T-Shirt", 29.99, "M", "Black"),
             new Product(2, "Levi", "Jeans", 49.99, "L", "Blue"),
             new Product(3, "The North Face", "Jacket", 89.99, "XL", "Green"),
             new Product(4, "Nike", "Sneakers", 79.99, "42", "White"),
-            new Product(5, "Gucci", "Hat", 44.99, "One Size", "Red")
+            new Product(5, "Gucci", "Hat", 44.99, "One Size", "Red"),
+            new Product(6, "Puma", "Shorts", 24.99, "M", "Gray"),
+            new Product(7, "Zara", "Blazer", 119.99, "L", "Navy")
     ));
 
-    private int nextId = 6;
+    private int nextId = products.stream().mapToInt(Product::getId).max().orElse(0);
 
     public List<Product> getAllProducts() {
         return products;
     }
 
     public Product addProduct(Product product) {
-        product.setId(nextId++);
+        product.setId(++nextId);
         products.add(product);
         return product;
     }

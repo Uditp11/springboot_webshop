@@ -2,9 +2,9 @@ package com.ecomweb.online.da.DA.model;
 
 public class User {
     private int id;
-    private String name;
-    private String email;
-    private String role;
+    private final String name;
+    private final String email;
+    private final String role;
 
     public User(int id, String name, String email, String role) {
         this.id = id;

@@ -1,14 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome!!!</title>
+    <title>Dashboard</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .dashboard {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            padding: 40px 0;
+            flex-wrap: wrap;
+        }
+        .tile {
+            width: 200px;
+            height: 150px;
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            color: black;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .tile:hover {
+            background-color: #ddd;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+        .tile:active {
+            background-color: #ccc;
+            box-shadow: none;
+        }
+        .container {
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to My Spring Boot Application!</h1>
-    <p>This is the index page.</p>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Dashboard</h1>
 
-    <p><a href="/demo/view.html">Go to the Demo View Page</a></p>
+        <div class="dashboard">
+            <a class="tile btn btn-light" href="/catalog">Product Catalog</a>
+            <a class="tile btn btn-light" href="/add-product">Add Product</a>
+            <a class="tile btn btn-light" href="/cart">Shopping Cart</a>
+
+            <a class="tile btn btn-light" href="/demo/add-user.html">Add User</a>
+            <a class="tile btn btn-light" href="/demo/update-Product.html">Update Product</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

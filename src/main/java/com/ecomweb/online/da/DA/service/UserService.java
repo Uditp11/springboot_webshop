@@ -1,9 +1,11 @@
 package com.ecomweb.online.da.DA.service;
 
-import org.springframework.stereotype.Service;
-import com.ecomweb.online.da.DA.model.User;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.ecomweb.online.da.DA.model.User;
 
 @Service
 public class UserService {

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Add New User</h1>
+        <form id="addUserForm">
+            <div class="form-group">
+                <label for="uname">Name</label>
+                <input type="text" id="uname" class="form-control" placeholder="Enter user name" required>
+            </div>
+            <div class="form-group">
+                <label for="uemail">Email</label>
+                <input type="email" id="uemail" class="form-control" placeholder="Enter user email" required>
+            </div>
+            <div class="form-group">
+                <label for="urole">Role</label>
+                <input type="text" id="urole" class="form-control" placeholder="Enter user role" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="addUser()">Add User</button>
+        </form>
+        <div class="mt-4">
+            <a href="http://localhost:8080/" class="btn btn-secondary mr-2">Dashboard</a>
+            <a href="http://localhost:8080/users" class="btn btn-secondary">Users Data List</a>
+        </div>
+    </div>
+
+    <script>
+        function addUser() {
+            const name = document.getElementById('uname').value;
+            const email = document.getElementById('uemail').value;
+            const role = document.getElementById('urole').value;
+
+            fetch('/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, role })
+            })
+            .then(res => res.json())
+            .then(data => alert('User Added: ' + JSON.stringify(data)))
+            .catch(err => console.error(err));
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
