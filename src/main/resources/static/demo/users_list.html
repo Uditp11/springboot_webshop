@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users Data List</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Users Data List</h1>
+
+    <!-- Users Table -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="usersTableBody">
+            <!-- Data will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Back to Add User Button -->
+    <div class="text-center mt-4">
+        <a href="add-user.html" class="btn btn-secondary">Add New User</a>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm">
+                    <div class="form-group">
+                        <label for="editName">Name</label>
+                        <input type="text" id="editName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email</label>
+                        <input type="email" id="editEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editRole">Role</label>
+                        <input type="text" id="editRole" class="form-control" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="updateUser()">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentUserId = null;
+
+    function fetchUsers() {
+        fetch('/users')
+            .then(response => response.json())
+            .then(users => {
+                const tableBody = document.getElementById('usersTableBody');
+                tableBody.innerHTML = '';
+                users.forEach((user, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.role}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info" onclick="showEditModal(${user.id}, '${user.name}', '${user.email}', '${user.role}')">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteUser(${user.id})">Delete</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(err => console.error('Error fetching users:', err));
+    }
+
+    function showEditModal(id, name, email, role) {
+        currentUserId = id;
+        document.getElementById('editName').value = name;
+        document.getElementById('editEmail').value = email;
+        document.getElementById('editRole').value = role;
+        $('#editUserModal').modal('show');
+    }
+
+    function updateUser() {
+        const name = document.getElementById('editName').value;
+        const email = document.getElementById('editEmail').value;
+        const role = document.getElementById('editRole').value;
+
+        fetch(`/users/${currentUserId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, role })
+        })
+        .then(response => {
+            if (response.ok) {
+                $('#editUserModal').modal('hide');
+                fetchUsers();
+                alert('User updated successfully');
+            } else {
+                alert('Failed to update user');
+            }
+        })
+        .catch(err => console.error(err));
+    }
+
+    function deleteUser(id) {
+        if (confirm('Are you sure you want to delete this user?')) {
+            fetch(`/users/${id}`, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        fetchUsers();
+                        alert('User deleted successfully');
+                    } else {
+                        alert('Failed to delete user');
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchUsers);
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
