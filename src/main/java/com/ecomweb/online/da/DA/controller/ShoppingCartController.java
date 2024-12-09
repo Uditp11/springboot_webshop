@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ecomweb.online.da.DA.service.ShoppingCartService;
 
+import java.text.DecimalFormat;
+import java.util.Map;
+
 @Controller
 public class ShoppingCartController {
 
@@ -16,8 +19,20 @@ public class ShoppingCartController {
 
     @GetMapping("/cart")
     public String viewCart(Model model) {
-        model.addAttribute("cart", cartService.getCart());
-        model.addAttribute("totalPrice", cartService.getCart().calculateTotalPrice());
+        var cart = cartService.getCart();
+
+        // Fetching products from the ShoppingCart using the getProducts method
+        Map<?, ?> products = cart.getProducts();
+
+        // Calculating and formatting the total price
+        double totalPrice = cart.calculateTotalPrice();
+        DecimalFormat df = new DecimalFormat("#.00");
+        String formattedTotalPrice = df.format(totalPrice);
+
+        // Adding data to the model for rendering
+        model.addAttribute("products", products);
+        model.addAttribute("totalPrice", formattedTotalPrice);
+
         return "cart";
     }
 

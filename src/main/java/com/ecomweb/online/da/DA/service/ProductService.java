@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecomweb.online.da.DA.model.Product;
@@ -23,6 +24,11 @@ public class ProductService {
 
     private int nextId = products.stream().mapToInt(Product::getId).max().orElse(0);
 
+    @Autowired
+    private InventoryService inventoryService;
+
+    // ===== CRUD Operations =====
+
     public List<Product> getAllProducts() {
         return products;
     }
@@ -30,11 +36,17 @@ public class ProductService {
     public Product addProduct(Product product) {
         product.setId(++nextId);
         products.add(product);
+
+        // Initialize stock for the new product
+        inventoryService.setStockForProduct(product.getId(), 10); // Default stock
         return product;
     }
 
     public List<Product> deleteProduct(int id) {
         products.removeIf(product -> product.getId() == id);
+
+        // Optionally remove stock information
+        inventoryService.removeStockForProduct(id);
         return products;
     }
 
@@ -58,6 +70,8 @@ public class ProductService {
                 .findFirst()
                 .orElse(null);
     }
+
+    // ===== Filtering Operations =====
 
     public List<Product> getProductsByName(String name) {
         return products.stream()

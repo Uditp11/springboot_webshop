@@ -8,6 +8,7 @@ public class Product {
     private double price;
     private String size;
     private String color;
+    private int stock;
 
     public Product(int id, String name, String type, double price, String size, String color) {
         this.id = id;
@@ -26,6 +27,7 @@ public class Product {
     public double getPrice() { return price;}
     public String getSize() { return size;}
     public String getColor() { return color;}
+    public int getStock() { return stock;}
 
     public void setId(int id) { this.id = id;}
     public void setName(String name) { this.name = name;}
@@ -33,4 +35,5 @@ public class Product {
     public void setPrice(double price) { this.price = price;}
     public void setSize(String size) { this.size = size;}
     public void setColor(String color) { this.color = color;}
+    public void setStock(int stock) { this.stock = stock;}
 }
