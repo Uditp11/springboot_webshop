@@ -38,12 +38,7 @@ public class ProductController {
         return ResponseEntity.ok(addedProduct);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseBody
-    public ResponseEntity<List<Product>> deleteProduct(@PathVariable int id) {
-        List<Product> remainingProducts = productService.deleteProduct(id);
-        return ResponseEntity.ok(remainingProducts);
-    }
+
 
     @PutMapping
     @ResponseBody
@@ -82,6 +77,9 @@ public class ProductController {
         return productService.getProductsByColor(color);
     }
 
+
+
+
     // ===== Inventory Management Endpoints =====
 
     @PostMapping("/{id}/set-stock")
@@ -112,61 +110,9 @@ public class ProductController {
         return ResponseEntity.ok("Stock reduced for product with ID: " + id);
     }
 
-    // ===== UI Endpoints =====
 
-    @GetMapping("/catalog")
-    public String viewCatalog(@RequestParam(required = false, defaultValue = "false") boolean edit, Model model) {
-        List<Product> products = productService.getAllProducts();
-        for (Product product : products) {
-            int stock = inventoryService.getStockForProductId(product.getId()); // Fetch stock for each product
-            product.setStock(stock); // Set stock in each product
-        }
-        model.addAttribute("products", products);
-        model.addAttribute("edit", edit);
-        return "catalog"; // Thymeleaf template name
-    }
 
-    @GetMapping("/product/{id}")
-    public String getProductDetailPage(@PathVariable int id, Model model) {
-        Product product = productService.getProductById(id);
-        if (product != null) {
-            int stock = inventoryService.getStockForProductId(id); // Fetch stock from InventoryService
-            product.setStock(stock); // Set stock in the product object
-            model.addAttribute("product", product);
-        }
-        return "product-detail"; // Thymeleaf template name
-    }
 
-    @GetMapping("/add-product")
-    public String getAddProductPage() {
-        return "add-product";
-    }
 
-    @PostMapping("/add-products")
-    public String addProductUI(@RequestParam String name,
-                               @RequestParam String type,
-                               @RequestParam double price,
-                               @RequestParam String size,
-                               @RequestParam String color,
-                               Model model) {
-        Product newProduct = new Product();
-        newProduct.setName(name);
-        newProduct.setType(type);
-        newProduct.setPrice(price);
-        newProduct.setSize(size);
-        newProduct.setColor(color);
 
-        Product addedProduct = productService.addProduct(newProduct);
-        inventoryService.setStockForProduct(addedProduct.getId(), 10); // Default stock initialization
-        addedProduct.setStock(10); // Set the default stock value
-        model.addAttribute("product", addedProduct);
-
-        return "product-detail";
-    }
-
-    @GetMapping("/product-delete/{id}")
-    public String deleteProductUI(@PathVariable int id) {
-        productService.deleteProduct(id);
-        return "redirect:/products/catalog?edit=true";
-    }
 }
