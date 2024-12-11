@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .out-of-stock {
+            color: red;
+            font-weight: bold;
+        }
+        .disabled-button {
+            background-color: grey;
+            border: none;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
@@ -16,10 +27,18 @@
                 <li class="list-group-item"><strong>Price:</strong> <span th:text="${product.price} + ' USD'"></span></li>
                 <li class="list-group-item"><strong>Size:</strong> <span th:text="${product.size}"></span></li>
                 <li class="list-group-item"><strong>Color:</strong> <span th:text="${product.color}"></span></li>
-                <li class="list-group-item"><strong>Stock:</strong> <span th:text="${product.stock}"></span></li> <!-- Display stock -->
+                <li class="list-group-item">
+                    <strong>Stock:</strong>
+                    <span th:if="${product.stock > 0}" th:text="${product.stock}"></span>
+                    <span th:if="${product.stock == 0}" class="out-of-stock">Out of Stock</span>
+                </li>
             </ul>
             <div class="mt-4 text-center">
-                <a th:href="@{/cart-add/{id}(id=${product.id})}" class="btn btn-primary">Add to Cart</a>
+                <!-- Add to Cart button: disabled if stock is zero -->
+                <a th:href="@{/cart-add/{id}(id=${product.id})}"
+                   th:classappend="${product.stock == 0} ? ' disabled-button' : ''"
+                   class="btn btn-primary"
+                   th:disabled="${product.stock == 0}">Add to Cart</a>
                 <a href="/catalog" class="btn btn-secondary">Back to Catalog</a>
             </div>
         </div>

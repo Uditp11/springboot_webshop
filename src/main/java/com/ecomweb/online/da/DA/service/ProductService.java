@@ -12,6 +12,8 @@ import com.ecomweb.online.da.DA.model.Product;
 @Service
 public class ProductService {
 
+    private static final int DEFAULT_STOCK = 10; // Default stock value for new products
+
     private final List<Product> products = new ArrayList<>(List.of(
             new Product(1, "Adidas", "T-Shirt", 29.99, "M", "Black"),
             new Product(2, "Levi", "Jeans", 49.99, "L", "Blue"),
@@ -27,9 +29,10 @@ public class ProductService {
     @Autowired
     private InventoryService inventoryService;
 
-    // ===== CRUD Operations =====
-
     public List<Product> getAllProducts() {
+        products.forEach(product ->
+                product.setStock(inventoryService.getStockForProductId(product.getId()))
+        );
         return products;
     }
 
@@ -38,7 +41,7 @@ public class ProductService {
         products.add(product);
 
         // Initialize stock for the new product
-        inventoryService.setStockForProduct(product.getId(), 10); // Default stock
+        inventoryService.setStockForProduct(product.getId(), DEFAULT_STOCK); // Use DEFAULT_STOCK
         return product;
     }
 
@@ -49,7 +52,7 @@ public class ProductService {
         inventoryService.removeStockForProduct(id);
         return products;
     }
-
+    
     public Product updateProduct(Product updatedProduct) {
         for (Product product : products) {
             if (product.getId() == updatedProduct.getId()) {
@@ -70,8 +73,6 @@ public class ProductService {
                 .findFirst()
                 .orElse(null);
     }
-
-    // ===== Filtering Operations =====
 
     public List<Product> getProductsByName(String name) {
         return products.stream()
