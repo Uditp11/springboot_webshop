@@ -29,7 +29,7 @@ public class CartFacade {
      * @param productId the ID of the product to add
      * @return true if the product was added successfully, false if out of stock or invalid
      */
-    public boolean addProductToCart(int productId) {
+    public boolean addProductToCart(long productId) {
         Product product = productService.getProductById(productId);
         if (product != null) {
             int currentStock = inventoryService.getStockForProductId(productId);

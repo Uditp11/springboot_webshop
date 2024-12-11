@@ -27,7 +27,6 @@
             <th>Name</th>
             <th>Type</th>
             <th>Price</th>
-            <th>Stock</th> <!-- Add Stock Column -->
             <th>Size</th>
             <th>Color</th>
             <th th:if="${edit}">Actions</th>
@@ -41,7 +40,6 @@
             </td>
             <td th:text="${product.type}"></td>
             <td th:text="${product.price}"></td>
-            <td th:text="${product.stock}"></td> <!-- Display stock -->
             <td th:text="${product.size}"></td>
             <td th:text="${product.color}"></td>
             <td th:if="${edit}">

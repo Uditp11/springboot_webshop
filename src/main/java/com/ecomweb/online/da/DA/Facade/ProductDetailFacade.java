@@ -1,28 +1,29 @@
 package com.ecomweb.online.da.DA.Facade;
 
 import com.ecomweb.online.da.DA.model.Product;
+import com.ecomweb.online.da.DA.model.ProductDetailDTO;
 import com.ecomweb.online.da.DA.service.InventoryService;
 import com.ecomweb.online.da.DA.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class ProductDetailFacade {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
+    private final InventoryService inventoryService;
 
-    @Autowired
-    private InventoryService inventoryService;
+    // Constructor-based Dependency Injection
+    public ProductDetailFacade(ProductService productService, InventoryService inventoryService) {
+        this.productService = productService;
+        this.inventoryService = inventoryService;
+    }
 
-    public Product getProductWithStock(int productId) {
+    public ProductDetailDTO getProductWithStock(long productId) {
         Product product = productService.getProductById(productId);
         if (product != null) {
             int stock = inventoryService.getStockForProductId(productId);
-            product.setStock(stock);
+            return new ProductDetailDTO(product, stock);
         }
-        return product;
+        return null;
     }
-
-
 }

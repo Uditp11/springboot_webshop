@@ -1,5 +1,6 @@
 package com.ecomweb.online.da.DA.controller;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.ecomweb.online.da.DA.Facade.CatalogFacade;
@@ -20,7 +21,7 @@ public class CatalogController {
 
     @GetMapping("/catalog")
     public String viewCatalog(@RequestParam(required = false, defaultValue = "false") boolean edit, Model model) {
-        List<Product> products = catalogFacade.getProductsWithStock();
+        Collection<Product> products = catalogFacade.getProductsWithStock();
         model.addAttribute("products", products);
         model.addAttribute("edit", edit);
         return "catalog"; // Thymeleaf template name

@@ -21,24 +21,24 @@
 <div class="container mt-5">
     <div class="card shadow-sm">
         <div class="card-body">
-            <h1 class="card-title" th:text="${product.name}">Product Name</h1>
+            <h1 class="card-title" th:text="${productDetailDTO.product.name}">Product Name</h1>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Type:</strong> <span th:text="${product.type}"></span></li>
-                <li class="list-group-item"><strong>Price:</strong> <span th:text="${product.price} + ' USD'"></span></li>
-                <li class="list-group-item"><strong>Size:</strong> <span th:text="${product.size}"></span></li>
-                <li class="list-group-item"><strong>Color:</strong> <span th:text="${product.color}"></span></li>
+                <li class="list-group-item"><strong>Type:</strong> <span th:text="${productDetailDTO.product.type}"></span></li>
+                <li class="list-group-item"><strong>Price:</strong> <span th:text="${productDetailDTO.product.price} + ' USD'"></span></li>
+                <li class="list-group-item"><strong>Size:</strong> <span th:text="${productDetailDTO.product.size}"></span></li>
+                <li class="list-group-item"><strong>Color:</strong> <span th:text="${productDetailDTO.product.color}"></span></li>
                 <li class="list-group-item">
                     <strong>Stock:</strong>
-                    <span th:if="${product.stock > 0}" th:text="${product.stock}"></span>
-                    <span th:if="${product.stock == 0}" class="out-of-stock">Out of Stock</span>
+                    <span th:if="${!productDetailDTO.isSoldOut}" th:text="${productDetailDTO.stock}"></span>
+                    <span th:if="${productDetailDTO.isSoldOut}" class="out-of-stock">Out of Stock</span>
                 </li>
             </ul>
             <div class="mt-4 text-center">
                 <!-- Add to Cart button: disabled if stock is zero -->
-                <a th:href="@{/cart-add/{id}(id=${product.id})}"
-                   th:classappend="${product.stock == 0} ? ' disabled-button' : ''"
+                <a th:href="@{/cart-add/{id}(id=${productDetailDTO.product.id})}"
+                   th:classappend="${productDetailDTO.isSoldOut} ? ' disabled-button' : ''"
                    class="btn btn-primary"
-                   th:disabled="${product.stock == 0}">Add to Cart</a>
+                   th:disabled="${productDetailDTO.isSoldOut}">Add to Cart</a>
                 <a href="/catalog" class="btn btn-secondary">Back to Catalog</a>
             </div>
         </div>

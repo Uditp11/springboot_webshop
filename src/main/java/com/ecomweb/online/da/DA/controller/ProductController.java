@@ -1,5 +1,6 @@
 package com.ecomweb.online.da.DA.controller;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.ecomweb.online.da.DA.service.InventoryService;
@@ -22,7 +23,7 @@ public class ProductController {
 
     @GetMapping
     @ResponseBody
-    public List<Product> getAllProducts() {
+    public Collection<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 
@@ -43,17 +44,18 @@ public class ProductController {
     @Autowired
     private InventoryService inventoryService;
 
-    @GetMapping("/id/{id}")
-    @ResponseBody
-    public ResponseEntity<Product> getProductById(@PathVariable int id) {
-        Product product = productService.getProductById(id);
-        if (product == null) {
-            return ResponseEntity.status(404).body(null); // Return 404 for not found
-        }
-        // Attach stock value
-        product.setStock(inventoryService.getStockForProductId(product.getId()));
-        return ResponseEntity.ok(product); // Return enriched product with stock
-    }
+
+//    @GetMapping("/id/{id}")
+//    @ResponseBody
+//    public ResponseEntity<Product> getProductById(@PathVariable int id) {
+//        Product product = productService.getProductById(id);
+//        if (product == null) {
+//            return ResponseEntity.status(404).body(null); // Return 404 for not found
+//        }
+//        // Attach stock value
+//        product.setStock(inventoryService.getStockForProductId(product.getId()));
+//        return ResponseEntity.ok(product); // Return enriched product with stock
+//    }
 
 
     @GetMapping("/name/{name}")

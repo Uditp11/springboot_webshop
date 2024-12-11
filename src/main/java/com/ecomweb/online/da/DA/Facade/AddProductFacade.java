@@ -1,6 +1,7 @@
 package com.ecomweb.online.da.DA.Facade;
 
 import com.ecomweb.online.da.DA.model.Product;
+import com.ecomweb.online.da.DA.model.ProductDetailDTO;
 import com.ecomweb.online.da.DA.service.InventoryService;
 import com.ecomweb.online.da.DA.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class AddProductFacade {
     @Autowired
     private InventoryService inventoryService;
 
-    public Product addProduct(String name, String type, double price, String size, String color, int stock) {
+    public ProductDetailDTO addProduct(String name, String type, double price, String size, String color, int stock) {
         Product newProduct = new Product();
         newProduct.setName(name);
         newProduct.setType(type);
@@ -25,9 +26,10 @@ public class AddProductFacade {
 
         Product savedProduct = productService.addProduct(newProduct);
         inventoryService.setStockForProduct(savedProduct.getId(), stock);
-        savedProduct.setStock(stock);
 
-        return savedProduct;
+
+        return new ProductDetailDTO(savedProduct, stock);
+
     }
 }
 
