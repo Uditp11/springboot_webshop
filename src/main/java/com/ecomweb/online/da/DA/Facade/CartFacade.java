@@ -10,15 +10,28 @@ import org.springframework.stereotype.Component;
 import java.text.DecimalFormat;
 import java.util.Map;
 
+/**
+ * Facade class for managing shopping cart operations.
+ * Combines shopping cart logic, product management, and inventory handling.
+ */
 @Component
 public class CartFacade {
 
+    /**
+     * Service for managing shopping cart operations.
+     */
     @Autowired
     private ShoppingCartService cartService;
 
+    /**
+     * Service for managing product-related operations.
+     */
     @Autowired
     private ProductService productService;
 
+    /**
+     * Service for managing inventory-related operations.
+     */
     @Autowired
     private InventoryService inventoryService;
 

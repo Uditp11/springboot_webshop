@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Catalog</title>
+    <title>Paginated Product Catalog</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script>
         function toggleEditMode() {
@@ -19,7 +19,7 @@
 </head>
 <body>
 <div class="container mt-4">
-    <h1 class="text-center mb-4">Product Catalog</h1>
+    <h1 class="text-center mb-4">Paginated Product Catalog</h1>
 
     <!-- Search Section -->
     <div class="text-center mt-4">
@@ -41,40 +41,50 @@
         <a href="/catalog-paginated" class="btn btn-secondary btn-lg mx-2">Reset Filters</a>
     </div>
 
-    <!-- Product Table -->
-    <table class="table table-bordered table-hover mt-4">
-        <thead class="thead-dark">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Price</th>
-            <th>Size</th>
-            <th>Color</th>
-            <th th:if="${edit}">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="product : ${products}">
-            <td th:text="${product.id}"></td>
-            <td>
-                <a th:href="@{/products/{id}(id=${product.id})}" class="btn btn-link" th:text="${product.name}"></a>
-            </td>
-            <td th:text="${product.type}"></td>
-            <td th:text="${product.price}"></td>
-            <td th:text="${product.size}"></td>
-            <td th:text="${product.color}"></td>
-            <td th:if="${edit}">
-                <a th:href="@{/product-delete/{id}(id=${product.id})}" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div th:if="${productPage.content.size() > 0}">
+        <!-- Product Table -->
+        <table class="table table-bordered table-hover mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Size</th>
+                <th>Color</th>
+                <th th:if="${edit}">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${productPage.content}">
+                <td th:text="${product.id}"></td>
+                <td><a th:href="@{/products/{id}(id=${product.id})}" class="btn btn-link" th:text="${product.name}"></a></td>
+                <td th:text="${product.type}"></td>
+                <td th:text="${product.price}"></td>
+                <td th:text="${product.size}"></td>
+                <td th:text="${product.color}"></td>
+                <td th:if="${edit}"><a th:href="@{/product-delete/{id}(id=${product.id})}" class="btn btn-danger btn-sm">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination Controls -->
+        <div class="d-flex justify-content-between">
+            <a th:if="${productPage.hasPrevious()}" th:href="@{/catalog-paginated(page=${productPage.number - 1}, size=${productPage.size})}" class="btn btn-info">Previous</a>
+            <span th:text="'Page ' + (${productPage.number + 1}) + ' of ' + ${productPage.totalPages}"></span>
+            <a th:if="${productPage.hasNext()}" th:href="@{/catalog-paginated(page=${productPage.number + 1}, size=${productPage.size})}" class="btn btn-info">Next</a>
+        </div>
+    </div>
+
+    <div th:if="${productPage.content.size() == 0}" class="text-center mt-4">
+        <p>No products available.</p>
+    </div>
 
     <!-- Additional Buttons -->
     <div class="text-center mt-4">
         <button class="btn btn-warning btn-lg mx-2" onclick="toggleEditMode()">Toggle Edit Mode</button>
         <a href="/products/new" class="btn btn-success btn-lg mx-2">Add New Product</a>
+        <a href="/catalog" class="btn btn-primary btn-lg mx-2">View Full Catalog</a>
     </div>
     <div class="text-center mt-4">
         <a href="/" class="btn btn-info btn-lg mx-2">Go to Dashboard</a>
