@@ -20,7 +20,29 @@
 <body>
 <div class="container mt-4">
     <h1 class="text-center mb-4">Product Catalog</h1>
-    <table class="table table-bordered table-hover">
+
+    <!-- Search Section -->
+    <div class="text-center mt-4">
+        <h3>Search Products</h3>
+        <form action="/products/search" method="get" class="form-inline justify-content-center">
+            <input type="text" name="name" placeholder="Enter product name" class="form-control mx-2">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="text-center mt-4">
+        <h3>Filter by Color</h3>
+        <a href="/products/filter?color=Black" class="btn btn-dark btn-lg mx-2">Black</a>
+        <a href="/products/filter?color=White" class="btn btn-light btn-lg mx-2">White</a>
+        <a href="/products/filter?color=Red" class="btn btn-danger btn-lg mx-2">Red</a>
+        <a href="/products/filter?color=Blue" class="btn btn-primary btn-lg mx-2">Blue</a>
+        <a href="/products/filter?color=Green" class="btn btn-success btn-lg mx-2">Green</a>
+        <a href="/catalog" class="btn btn-secondary btn-lg mx-2">Reset Filters</a>
+    </div>
+
+    <!-- Product Table -->
+    <table class="table table-bordered table-hover mt-4">
         <thead class="thead-dark">
         <tr>
             <th>ID</th>
@@ -48,7 +70,8 @@
         </tr>
         </tbody>
     </table>
-    <hr>
+
+    <!-- Additional Buttons -->
     <div class="text-center mt-4">
         <button class="btn btn-warning btn-lg mx-2" onclick="toggleEditMode()">Toggle Edit Mode</button>
         <a href="/products/new" class="btn btn-success btn-lg mx-2">Add New Product</a>

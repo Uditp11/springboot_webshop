@@ -27,6 +27,13 @@ public class CatalogController {
         return "catalog"; // Thymeleaf template name
     }
 
+    @GetMapping("/products/search")
+    public String searchProducts(@RequestParam("name") String name, Model model) {
+        List<Product> products = catalogFacade.searchProductsByName(name);
+        model.addAttribute("products", products);
+        return "catalog";
+    }
+
     @GetMapping("/product-delete/{id}")
     public String deleteProduct(@PathVariable int id) {
         catalogFacade.deleteProduct(id);
@@ -36,5 +43,12 @@ public class CatalogController {
     @GetMapping("/products/update-product")
     public String updateProduct() {
         return "update-product"; // Name of the Thymeleaf template (without .html)
+    }
+
+    @GetMapping("/products/filter")
+    public String filterProductsByColor(@RequestParam("color") String color, Model model) {
+        List<Product> products = catalogFacade.getProductsByColor(color);
+        model.addAttribute("products", products);
+        return "catalog";
     }
 }

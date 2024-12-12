@@ -34,8 +34,8 @@ public class CartFacade {
         if (product != null) {
             int currentStock = inventoryService.getStockForProductId(productId);
             if (currentStock > 0) {
-                inventoryService.setStockForProduct(productId, currentStock - 1); // Decrease stock
-                cartService.addProductToCart(product, 1); // Add product to cart
+                inventoryService.setStockForProduct(productId, currentStock - 1);
+                cartService.addProductToCart(product, 1);
                 return true;
             }
         }
