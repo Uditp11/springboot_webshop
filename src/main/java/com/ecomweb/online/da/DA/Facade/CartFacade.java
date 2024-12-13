@@ -2,6 +2,7 @@ package com.ecomweb.online.da.DA.Facade;
 
 import com.ecomweb.online.da.DA.model.Product;
 import com.ecomweb.online.da.DA.service.InventoryService;
+import com.ecomweb.online.da.DA.service.PriceCalculationService;
 import com.ecomweb.online.da.DA.service.ProductService;
 import com.ecomweb.online.da.DA.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,12 @@ public class CartFacade {
      */
     @Autowired
     private InventoryService inventoryService;
+
+    /**
+     * Service for calculating prices and handling currency conversions.
+     */
+    @Autowired
+    private PriceCalculationService priceCalculationService;
 
     /**
      * Adds a product to the shopping cart after validating stock.
@@ -72,7 +79,8 @@ public class CartFacade {
      */
     public String getFormattedTotalPrice() {
         BigDecimal totalPrice = cartService.getCart().calculateTotalPrice();
+        BigDecimal roundedTotal = priceCalculationService.roundPrice(totalPrice);
         DecimalFormat df = new DecimalFormat("#.00");
-        return df.format(totalPrice);
+        return df.format(roundedTotal);
     }
 }

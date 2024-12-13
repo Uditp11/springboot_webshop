@@ -65,7 +65,7 @@ public class CatalogController {
     @GetMapping("/product-delete/{id}")
     public String deleteProduct(@PathVariable int id) {
         catalogFacade.deleteProduct(id);
-        return "redirect:/catalog?edit=true";
+        return "redirect:/catalog-paginated?edit=true";
     }
 
     /**
@@ -96,16 +96,19 @@ public class CatalogController {
      * Displays a paginated catalog of products.
      *
      * @param pageable The Pageable object containing pagination information.
+     * @param edit     Indicates if the catalog is in edit mode.
      * @param model    Spring model object for passing data to the view.
      * @return The Thymeleaf template name for the paginated catalog.
      */
     @GetMapping("/catalog-paginated")
     public String viewPaginatedCatalog(
+            @RequestParam(required = false, defaultValue = "false") boolean edit,
             @PageableDefault(size = 3) Pageable pageable,
             Model model) {
 
         Page<Product> productPage = catalogFacade.getPaginatedProducts(pageable);
         model.addAttribute("productPage", productPage);
+        model.addAttribute("edit", edit);
         return "catalog-paginated";
     }
 }
