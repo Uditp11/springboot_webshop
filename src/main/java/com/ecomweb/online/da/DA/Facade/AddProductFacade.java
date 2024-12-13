@@ -7,6 +7,7 @@ import com.ecomweb.online.da.DA.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 /**
  * Facade class for managing product addition.
  * Combines product creation and inventory management into a single operation.
@@ -37,7 +38,7 @@ public class AddProductFacade {
      * @param stock The quantity of the product in stock.
      * @return A DTO containing the product details and stock information.
      */
-    public ProductDetailDTO addProduct(String name, String type, double price, String size, String color, int stock) {
+    public ProductDetailDTO addProduct(String name, String type, BigDecimal price, String size, String color, int stock) {
         // Create a new product and set its properties
         Product newProduct = new Product();
         newProduct.setName(name);

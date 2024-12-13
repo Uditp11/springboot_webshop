@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.math.BigDecimal;
+
 
 import java.util.Objects;
 
@@ -34,7 +36,7 @@ public class Product {
     /**
      * Price of the product.
      */
-    private double price;
+    private BigDecimal price;
 
     /**
      * Size of the product.
@@ -56,7 +58,7 @@ public class Product {
      * @param size  Product size.
      * @param color Product color.
      */
-    public Product(long id, String name, String type, double price, String size, String color) {
+    public Product(long id, String name, String type, BigDecimal price, String size, String color) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -72,7 +74,7 @@ public class Product {
         this.id = 0;
         this.name = "";
         this.type = "";
-        this.price = 0.0;
+        this.price = BigDecimal.ZERO;
         this.size = "";
         this.color = "";
     }
@@ -81,7 +83,7 @@ public class Product {
     public long getId() { return id; }
     public String getName() { return name; }
     public String getType() { return type; }
-    public double getPrice() { return price; }
+    public BigDecimal getPrice() { return price; }
     public String getSize() { return size; }
     public String getColor() { return color; }
 
@@ -89,7 +91,7 @@ public class Product {
     public void setId(long id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setType(String type) { this.type = type; }
-    public void setPrice(double price) { this.price = price; }
+    public void setPrice(BigDecimal price) { this.price = price; }
     public void setSize(String size) { this.size = size; }
     public void setColor(String color) { this.color = color; }
 

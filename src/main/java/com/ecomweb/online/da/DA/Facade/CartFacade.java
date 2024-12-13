@@ -7,6 +7,7 @@ import com.ecomweb.online.da.DA.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Map;
 
@@ -70,7 +71,7 @@ public class CartFacade {
      * @return formatted total price as a String
      */
     public String getFormattedTotalPrice() {
-        double totalPrice = cartService.getCart().calculateTotalPrice();
+        BigDecimal totalPrice = cartService.getCart().calculateTotalPrice();
         DecimalFormat df = new DecimalFormat("#.00");
         return df.format(totalPrice);
     }

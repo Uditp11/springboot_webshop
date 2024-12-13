@@ -2,6 +2,7 @@ package com.ecomweb.online.da.DA.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.math.BigDecimal;
 
 /**
  * Represents a shopping cart containing products and their quantities.
@@ -23,11 +24,6 @@ public class ShoppingCart {
      */
     public void addProduct(Product product, int quantity) {
         products.put(product, products.getOrDefault(product, 0) + quantity);
-
-        // Print product details for debugging
-        for (Product p : products.keySet()) {
-            System.out.println("Product ID: " + p.getId() + ", Quantity: " + products.get(p));
-        }
     }
 
     /**
@@ -35,10 +31,10 @@ public class ShoppingCart {
      *
      * @return The total price as a double.
      */
-    public double calculateTotalPrice() {
+    public BigDecimal calculateTotalPrice() {
         return products.entrySet().stream()
-                .mapToDouble(entry -> entry.getKey().getPrice() * entry.getValue())
-                .sum();
+                .map(entry -> entry.getKey().getPrice().multiply(new BigDecimal(entry.getValue())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     /**

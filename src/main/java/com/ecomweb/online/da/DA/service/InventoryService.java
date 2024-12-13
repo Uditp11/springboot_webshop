@@ -23,11 +23,14 @@ public class InventoryService {
     public InventoryService() {
         productStock.put(1L, 2);
         productStock.put(2L, 10);
-        productStock.put(3L, 30);
-        productStock.put(4L, 30);
-        productStock.put(5L, 30);
-        productStock.put(6L, 30);
-        productStock.put(7L, 30);
+        productStock.put(3L, 15);
+        productStock.put(4L, 18);
+        productStock.put(5L, 5);
+        productStock.put(6L, 25);
+        productStock.put(7L, 11);
+        productStock.put(8L, 20);
+        productStock.put(9L, 30);
+        productStock.put(10L, 16);
     }
 
     /**

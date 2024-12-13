@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 /**
  * Controller class for managing product addition functionality.
  * Handles requests related to adding new products.
@@ -36,7 +38,7 @@ public class AddProductController {
      *
      * @param name  The product's name.
      * @param type  The type/category of the product.
-     * @param price The price of the product.
+     * @param price The price of the product as a string.
      * @param size  The size of the product.
      * @param color The color of the product.
      * @param stock The quantity of the product in stock.
@@ -46,14 +48,15 @@ public class AddProductController {
     @PostMapping("/add-product")
     public String addProductUI(@RequestParam String name,
                                @RequestParam String type,
-                               @RequestParam double price,
+                               @RequestParam String price,
                                @RequestParam String size,
                                @RequestParam String color,
                                @RequestParam int stock,
                                Model model) {
 
         // Add the product using the facade
-        ProductDetailDTO productDetail = addProductFacade.addProduct(name, type, price, size, color, stock);
+        BigDecimal priceValue = new BigDecimal(price);
+        ProductDetailDTO productDetail = addProductFacade.addProduct(name, type, priceValue, size, color, stock);
 
         // Check if the product was added successfully and pass it to the model
         if (productDetail != null) {
