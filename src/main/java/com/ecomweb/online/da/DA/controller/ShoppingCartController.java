@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Controller class for managing the shopping cart.
@@ -27,12 +28,35 @@ public class ShoppingCartController {
      * @return The Thymeleaf template name for the cart page.
      */
     @GetMapping("/cart")
-    public String viewCart(Model model) {
-        // Fetch products and total price using the facade
+    public String viewCart(
+            @RequestParam(name = "currency", required = false, defaultValue = "EURO") String currencyParam,
+            @RequestParam(name = "discount", required = false, defaultValue = "false") boolean applyDiscount,
+            Model model)
+    {
+        // 1. Fetch products
         model.addAttribute("products", cartFacade.getCartProducts());
-        model.addAttribute("totalPrice", cartFacade.getFormattedTotalPrice());
+
+        // 2. Parse currency
+        //    (Handle errors in case someone passes an invalid currency)
+        com.ecomweb.online.da.DA.model.Currency currency;
+        try {
+            currency = com.ecomweb.online.da.DA.model.Currency.valueOf(currencyParam.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            currency = com.ecomweb.online.da.DA.model.Currency.EURO; // default fallback
+        }
+
+        // 3. Calculate the total price in the selected currency, optionally with discount
+        //    This is a new method in your facade (see below).
+        String totalPrice = cartFacade.getFormattedTotalPrice(currency, applyDiscount);
+
+        // 4. Pass the calculated total, plus the user’s choices, back to the view
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("currency", currency);
+        model.addAttribute("applyDiscount", applyDiscount);
+
         return "cart";
     }
+
 
     /**
      * Adds a product to the shopping cart.

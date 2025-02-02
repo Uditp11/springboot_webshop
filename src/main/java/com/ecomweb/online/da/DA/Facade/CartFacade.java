@@ -1,5 +1,6 @@
 package com.ecomweb.online.da.DA.Facade;
 
+import com.ecomweb.online.da.DA.model.Currency;
 import com.ecomweb.online.da.DA.model.Product;
 import com.ecomweb.online.da.DA.service.InventoryService;
 import com.ecomweb.online.da.DA.service.PriceCalculationService;
@@ -73,14 +74,26 @@ public class CartFacade {
     }
 
     /**
-     * Calculates the total price of the shopping cart.
+     * Overloaded method to get the total price in the given currency, optionally applying discount.
      *
-     * @return formatted total price as a String
+     * @param currency     The currency to convert into (e.g., EURO, DOLLAR).
+     * @param applyDiscount If true, apply 10% discount.
+     * @return The formatted total price as a String, e.g. "15.99".
      */
-    public String getFormattedTotalPrice() {
+    public String getFormattedTotalPrice(Currency currency, boolean applyDiscount) {
         BigDecimal totalPrice = cartService.getCart().calculateTotalPrice();
-        BigDecimal roundedTotal = priceCalculationService.roundPrice(totalPrice);
+
+        // 1) Convert the total from your default currency (assumed EURO) to the chosen currency
+        BigDecimal convertedPrice = priceCalculationService.convertCurrency(totalPrice, Currency.EURO, currency);
+
+        // 2) Optionally apply discount
+        if (applyDiscount) {
+            convertedPrice = priceCalculationService.applyPercentageVoucher(convertedPrice);
+        }
+
+        // 3) Round and format to 2 decimals
+        BigDecimal finalPrice = priceCalculationService.roundPrice(convertedPrice);
         DecimalFormat df = new DecimalFormat("#.00");
-        return df.format(roundedTotal);
+        return df.format(finalPrice);
     }
 }
