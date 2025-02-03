@@ -15,6 +15,8 @@ public class ShoppingCart {
      */
     private Map<Product, Integer> products = new HashMap<>();
 
+    private Currency currency;
+
     /**
      * Adds a product to the shopping cart.
      * Updates the quantity if the product already exists.
@@ -44,5 +46,13 @@ public class ShoppingCart {
      */
     public Map<Product, Integer> getProducts() {
         return products;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 }

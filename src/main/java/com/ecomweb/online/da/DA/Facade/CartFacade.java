@@ -2,6 +2,7 @@ package com.ecomweb.online.da.DA.Facade;
 
 import com.ecomweb.online.da.DA.model.Currency;
 import com.ecomweb.online.da.DA.model.Product;
+import com.ecomweb.online.da.DA.model.ShoppingCart;
 import com.ecomweb.online.da.DA.service.InventoryService;
 import com.ecomweb.online.da.DA.service.PriceCalculationService;
 import com.ecomweb.online.da.DA.service.ProductService;
@@ -95,5 +96,9 @@ public class CartFacade {
         BigDecimal finalPrice = priceCalculationService.roundPrice(convertedPrice);
         DecimalFormat df = new DecimalFormat("#.00");
         return df.format(finalPrice);
+    }
+
+    public ShoppingCart getCart() {
+        return cartService.getCart();
     }
 }

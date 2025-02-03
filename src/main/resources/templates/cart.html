@@ -38,28 +38,21 @@
     </table>
 
     <div class="text-right mt-3">
-        <p class="font-weight-bold">
-            Total Price:
+        <p>Currency used:
+            <span th:text="${cart.currency}">EURO</span>
+        </p>
+
+        <p class="font-weight-bold">Total Price:
             <span th:text="${totalPrice}">0.00</span>
         </p>
     </div>
 
-    <!--
-        OPTIONAL FORM SECTION
-        If you'd like to let your users choose a different currency
-        or apply a discount from the cart page, you can add a form like this.
-        This form (method="get") will resubmit the /cart endpoint with
-        extra URL parameters for currency and discount.
-    -->
+
     <form th:action="@{/cart}" method="get" class="mt-4">
         <div class="form-group">
             <label for="currency">Select Currency:</label>
             <select class="form-control" id="currency" name="currency">
-                <!--
-                    Use Thymeleaf to mark the currently selected currency.
-                    'currency' is the model attribute we set in the controller to
-                    remember what was selected last time.
-                -->
+
                 <option value="EURO"
                         th:selected="${currency == T(com.ecomweb.online.da.DA.model.Currency).EURO}">
                     Euro

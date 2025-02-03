@@ -2,6 +2,7 @@ package com.ecomweb.online.da.DA.service;
 
 import org.springframework.stereotype.Service;
 import com.ecomweb.online.da.DA.model.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.ecomweb.online.da.DA.model.ShoppingCart;
 
 /**
@@ -14,7 +15,14 @@ public class ShoppingCartService {
     /**
      * The shopping cart instance.
      */
-    private final ShoppingCart cart = new ShoppingCart();
+    private final ShoppingCart cart;
+
+    @Autowired
+    public ShoppingCartService(PriceCalculationService priceCalculationService) {
+        this.cart = new ShoppingCart();
+        // Setting the cart's currency to the default (read from config)
+        this.cart.setCurrency(priceCalculationService.getDefaultCurrency());
+    }
 
     /**
      * Returns the current shopping cart.

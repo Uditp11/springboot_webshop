@@ -33,11 +33,10 @@ public class ShoppingCartController {
             @RequestParam(name = "discount", required = false, defaultValue = "false") boolean applyDiscount,
             Model model)
     {
-        // 1. Fetch products
+        // 1. Get the product map (if needed separately)
         model.addAttribute("products", cartFacade.getCartProducts());
 
-        // 2. Parse currency
-        //    (Handle errors in case someone passes an invalid currency)
+        // 2. Parse currency parameter
         com.ecomweb.online.da.DA.model.Currency currency;
         try {
             currency = com.ecomweb.online.da.DA.model.Currency.valueOf(currencyParam.toUpperCase());
@@ -45,11 +44,14 @@ public class ShoppingCartController {
             currency = com.ecomweb.online.da.DA.model.Currency.EURO; // default fallback
         }
 
-        // 3. Calculate the total price in the selected currency, optionally with discount
-        //    This is a new method in your facade (see below).
+        // 3. Update the ShoppingCart object's currency so that cart.currency reflects the selection
+        cartFacade.getCart().setCurrency(currency);
+
+        // 4. Calculate the total price based on the selected currency (with discount applied if chosen)
         String totalPrice = cartFacade.getFormattedTotalPrice(currency, applyDiscount);
 
-        // 4. Pass the calculated total, plus the user’s choices, back to the view
+        // 5. Add necessary attributes to the model
+        model.addAttribute("cart", cartFacade.getCart());
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("currency", currency);
         model.addAttribute("applyDiscount", applyDiscount);
