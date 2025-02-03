@@ -17,7 +17,6 @@ public class PriceCalculationService {
 
     private final Currency defaultCurrency;
 
-    // Inject the discount percentage from application.properties, defaulting to 10 if not provided
     private final BigDecimal voucherPercentage;
 
     /**
