@@ -1,6 +1,7 @@
 package com.ecomweb.online.da.DA.controller;
 
 import com.ecomweb.online.da.DA.Facade.CartFacade;
+import com.ecomweb.online.da.DA.service.PriceCalculationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,9 @@ public class ShoppingCartController {
      */
     @Autowired
     private CartFacade cartFacade;
+
+    @Autowired
+    private PriceCalculationService priceCalculationService;
 
     /**
      * Displays the shopping cart with its products and total price.
@@ -55,6 +59,7 @@ public class ShoppingCartController {
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("currency", currency);
         model.addAttribute("applyDiscount", applyDiscount);
+        model.addAttribute("voucherPercentage", priceCalculationService.getVoucherPercentage());
 
         return "cart";
     }

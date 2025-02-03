@@ -47,6 +47,9 @@
         </p>
     </div>
 
+    <div th:if="${applyDiscount}">
+        <p class="text-success font-weight-bold">Discount applied!</p>
+    </div>
 
     <form th:action="@{/cart}" method="get" class="mt-4">
         <div class="form-group">
@@ -67,8 +70,12 @@
         <div class="form-check">
             <input class="form-check-input" type="checkbox" id="discount" name="discount"
                    th:checked="${applyDiscount}">
-            <label class="form-check-label" for="discount">Apply 10% Discount</label>
+            <label class="form-check-label" for="discount"
+                   th:text="'Apply ' + ${voucherPercentage} + '% Discount'">
+                Apply Discount
+            </label>
         </div>
+
 
         <button type="submit" class="btn btn-primary mt-2">Recalculate</button>
     </form>

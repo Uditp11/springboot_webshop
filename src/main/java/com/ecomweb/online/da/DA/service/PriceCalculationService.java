@@ -11,21 +11,24 @@ import java.math.RoundingMode;
  * Service class for handling price calculations.
  * Provides utility methods such as rounding prices to two decimal places,
  * converting currencies, and applying percentage-based vouchers.
- *
- * This service ensures consistent rounding behavior across the application,
- * reducing code duplication and centralizing pricing logic.
  */
 @Service
 public class PriceCalculationService {
 
     private final Currency defaultCurrency;
 
+    // Inject the discount percentage from application.properties, defaulting to 10 if not provided
+    private final BigDecimal voucherPercentage;
+
     /**
-     * Constructor-based injection of the default currency.
+     * Constructor-based injection of the default currency and voucher percentage.
      */
-    public PriceCalculationService(@Value("${app.currency.default}") String defaultCurrencyStr) {
+    public PriceCalculationService(
+            @Value("${app.currency.default}") String defaultCurrencyStr,
+            @Value("${app.discount.percentage:10}") BigDecimal voucherPercentage) {
         // Convert the string (e.g., "EURO") to an enum constant
         this.defaultCurrency = Currency.valueOf(defaultCurrencyStr.toUpperCase());
+        this.voucherPercentage = voucherPercentage;
     }
 
     /**
@@ -34,9 +37,6 @@ public class PriceCalculationService {
     public Currency getDefaultCurrency() {
         return defaultCurrency;
     }
-
-    // Hardcoded voucher percentage
-    private static final BigDecimal VOUCHER_PERCENTAGE = BigDecimal.valueOf(10);
 
     /**
      * Rounds a price to two decimal places using HALF_UP rounding mode.
@@ -55,7 +55,7 @@ public class PriceCalculationService {
      * Converts an amount from one currency to another using a hardcoded conversion rate.
      * Rounds the result to two decimal places using HALF_UP rounding mode.
      *
-     * @param amount      The amount to convert.
+     * @param amount       The amount to convert.
      * @param fromCurrency The currency of the amount.
      * @param toCurrency   The target currency.
      * @return The converted amount, rounded to two decimals.
@@ -79,8 +79,6 @@ public class PriceCalculationService {
     /**
      * Applies a percentage voucher discount to the given price.
      * Rounds the final price to two decimal places using HALF_UP rounding mode.
-     * By default, it uses the hardcoded voucher percentage (10),
-     * but you can pass any percentage value as the second parameter.
      *
      * @param price             The original price as BigDecimal.
      * @param percentageVoucher The discount percentage to apply (e.g., 10 for 10%).
@@ -100,14 +98,17 @@ public class PriceCalculationService {
     }
 
     /**
-     * Overload for convenience if you want to apply the default
-     * hardcoded voucher percentage of 10%.
+     * Overload for convenience if you want to apply the configurable voucher percentage.
      *
      * @param price The original price as BigDecimal.
-     * @return The discounted price, using the default voucher of 10%.
+     * @return The discounted price, using the configured voucher percentage.
      */
     public BigDecimal applyPercentageVoucher(BigDecimal price) {
-        return applyPercentageVoucher(price, VOUCHER_PERCENTAGE);
+        return applyPercentageVoucher(price, voucherPercentage);
+    }
+
+    public BigDecimal getVoucherPercentage() {
+        return voucherPercentage;
     }
 
 }
