@@ -1,6 +1,6 @@
 package com.ecomweb.online.da.DA.controller;
 
-import com.ecomweb.online.da.DA.Facade.OrderFacade;
+import com.ecomweb.online.da.DA.Adapter.OrderAdapter;
 import com.ecomweb.online.da.DA.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class OrderController {
 
-    private final OrderFacade orderFacade;
+    private final OrderAdapter orderAdapter;
 
     @Autowired
-    public OrderController(OrderFacade orderFacade) {
-        this.orderFacade = orderFacade;
+    public OrderController(OrderAdapter orderAdapter) {
+        this.orderAdapter = orderAdapter;
     }
 
     @PostMapping("/checkout")
     public String checkout(@RequestParam("totalPrice") double totalPrice, Model model) {
-        // Use the facade to finalize the order
-        Order order = orderFacade.finalizeOrder(totalPrice);
+        // Use the adapter to finalize the order (which also sends an e-mail)
+        Order order = orderAdapter.finalizeOrder(totalPrice);
 
         // Add the order to the model so we can display it in the success page
         model.addAttribute("order", order);
