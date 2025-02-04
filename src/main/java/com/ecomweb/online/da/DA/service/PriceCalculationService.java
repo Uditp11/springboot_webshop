@@ -25,7 +25,6 @@ public class PriceCalculationService {
     public PriceCalculationService(
             @Value("${app.currency.default}") String defaultCurrencyStr,
             @Value("${app.discount.percentage:10}") BigDecimal voucherPercentage) {
-        // Convert the string (e.g., "EURO") to an enum constant
         this.defaultCurrency = Currency.valueOf(defaultCurrencyStr.toUpperCase());
         this.voucherPercentage = voucherPercentage;
     }
