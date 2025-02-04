@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Order Success</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h3 class="card-title mb-0">Order Success</h3>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Your order has been created successfully!</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>Total Price:</h5>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <p class="font-weight-bold" th:text="${order.totalPrice}"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h5>User ID:</h5>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <p class="font-weight-bold" th:text="${order.userId}"></p>
+                        </div>
+                    </div>
+                    <hr>
+                    <a href="/catalog-paginated" class="btn btn-primary btn-block">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
