@@ -29,7 +29,7 @@ public class ApiKeyFilter extends GenericFilterBean {
         if (path.startsWith("/SaaS")) {
             String requestApiKey = httpRequest.getHeader("X-API-KEY");
 
-            if (requestApiKey == null || !apiKey.equals(requestApiKey)) {
+            if (!apiKey.equals(requestApiKey)) {
                 httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 httpResponse.getWriter().write("Unauthorized");
                 return;
