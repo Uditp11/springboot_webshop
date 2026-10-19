@@ -26,7 +26,9 @@ public class ApiKeyFilter extends GenericFilterBean {
         String path = httpRequest.getRequestURI();
 
 
-        if (path.startsWith("/SaaS")) {
+        // Case-insensitive so /saas/catalog is covered. CORS preflight requests carry no
+        // custom headers, so OPTIONS is let through for the Svelte client.
+        if (path.toLowerCase().startsWith("/saas") && !"OPTIONS".equalsIgnoreCase(httpRequest.getMethod())) {
             String requestApiKey = httpRequest.getHeader("X-API-KEY");
 
             if (!apiKey.equals(requestApiKey)) {
