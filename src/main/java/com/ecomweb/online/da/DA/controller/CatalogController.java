@@ -62,7 +62,7 @@ public class CatalogController {
      * @param id The ID of the product to delete.
      * @return A redirect to the catalog page in edit mode.
      */
-    @GetMapping("/product-delete/{id}")
+    @PostMapping("/product-delete/{id}")
     public String deleteProduct(@PathVariable int id) {
         catalogFacade.deleteProduct(id);
         return "redirect:/catalog-paginated?edit=true";

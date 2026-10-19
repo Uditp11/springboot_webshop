@@ -19,7 +19,7 @@ From `pom.xml` and `my-svelte-frontend/package.json`:
 - JSON endpoints for products (`/products`) and users (`/users`). Users are kept in a list in memory.
 - A shopping cart that checks stock against an in-memory inventory, converts between EUR and USD at fixed rates, and applies a percentage voucher set in `application.properties`.
 - Facade classes in `Facade/` that sit between the controllers and the services, and an `OrderAdapter` that finalises an order and calls a simulated e-mail service on checkout.
-- A JSON catalogue endpoint at `/saas/catalog` for the Svelte client, with CORS allowed for `http://localhost:5173`. An `ApiKeyFilter` checks the `X-API-KEY` header on paths that start with `/SaaS`.
+- A JSON catalogue endpoint at `/saas/catalog` for the Svelte client, with CORS allowed for `http://localhost:5173`. An `ApiKeyFilter` rejects requests to `/saas` paths that do not send the key from `application.properties` in the `X-API-KEY` header.
 
 ## How to run
 
